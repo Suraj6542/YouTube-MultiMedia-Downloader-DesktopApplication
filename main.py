@@ -30,29 +30,41 @@ def download_video():
         print(e)
 
 
-root = tk.Tk()
+root = ThemedTk(theme="itft1")  # ( "itft1","winxpblue","keramik", "kroc"  etc.)
 root.title("YouTube Video Downloader")
 
-instructions_label = tk.Label(root, text="Enter the YouTube video URL:")
-instructions_label.pack()
+frame = ttk.Frame(root, padding=10)
+frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
-url_entry = tk.Entry(root, width=80)
-url_entry.pack()
+for i in range(6):  
+    frame.grid_rowconfigure(i, weight=1)
 
-format_label = tk.Label(root, text="Select Format:")
-format_label.pack()
+for i in range(2):  
+    frame.grid_columnconfigure(i, weight=1)
+
+instructions_label = ttk.Label(frame, text="Enter the YouTube video URL:")
+instructions_label.grid(row=0, column=0, columnspan=2, pady=(0, 10), sticky="w")
+
+url_entry = ttk.Entry(frame, width=50)
+url_entry.grid(row=1, column=0, columnspan=2, pady=(0, 10), sticky="ew")
+
+format_label = ttk.Label(frame, text="Select Format:")
+format_label.grid(row=2, column=0, columnspan=2, pady=(0, 5), sticky="w")
 
 formats = ["best", "mp3", "mp4"]
 format_var = tk.StringVar(root)
 format_var.set(formats[0])
 
-format_menu = ttk.Combobox(root, textvariable=format_var, values=formats)
-format_menu.pack()
+format_menu = ttk.Combobox(frame, textvariable=format_var, values=formats)
+format_menu.grid(row=3, column=0, columnspan=2, pady=(0, 10), sticky="ew")
 
-download_button = tk.Button(root, text="Download", command=download_video)
-download_button.pack()
+download_button = ttk.Button(frame, text="Download", command=download_video)
+download_button.grid(row=4, column=0, columnspan=2, pady=(10, 0), sticky="ew")
 
-status_label = tk.Label(root, text="")
-status_label.pack()
+status_label = ttk.Label(frame, text="", font=("Arial", 10, "italic"))
+status_label.grid(row=5, column=0, columnspan=2, sticky="w")
+
+root.update_idletasks()
+root.minsize(root.winfo_reqwidth(), root.winfo_reqheight())
 
 root.mainloop()
